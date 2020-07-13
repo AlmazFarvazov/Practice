@@ -1,5 +1,11 @@
 package ru.itic.javalab_practice;
 
+import ru.itic.javalab_practice.jdbc.SimpleDataSource;
+import ru.itic.javalab_practice.models.Mentor;
+import ru.itic.javalab_practice.models.Student;
+import ru.itic.javalab_practice.repositories.StudentsRepository;
+import ru.itic.javalab_practice.repositories.StudentsRepositoryJdbcImpl;
+
 import java.sql.*;
 
 public class Main {
@@ -10,35 +16,15 @@ public class Main {
 
     public static void main(String[] args) throws SQLException {
         SimpleDataSource dataSource = new SimpleDataSource();
-        // подключение к базе данных
         Connection connection = dataSource.openConnection(URL, USER, PASSWORD);
-        // создаем выражение для отправки запросов в бд
-        Statement statement = connection.createStatement();
-        // получаем результат запроса
-        ResultSet resultSet = statement.executeQuery("select * from student");
-        // пробегаем по результирующему множеству
-        while (resultSet.next()) {
-            // выводим информацию по каждому столбцу каждой строки
-            System.out.println("ID " + resultSet.getInt("id"));
-            System.out.println("First Name " + resultSet.getString("first_name"));
-            System.out.println("Last Name " + resultSet.getString("last_name"));
-            System.out.println("Age " + resultSet.getInt("age"));
-            System.out.println("Group Number " + resultSet.getInt("group_number"));
-        }
-        System.out.println("-------------------");
-
-        resultSet.close();
-
-        resultSet = statement.executeQuery("select s.id as s_id, *\n" +
-                "from student s\n" +
-                "         full outer join mentor m on s.id = m." +
-                "student_id;");
-
-        while (resultSet.next()) {
-            System.out.println("ID " + resultSet.getInt("s_id"));
-        }
-
-        connection.close();
+        StudentsRepository repository = new StudentsRepositoryJdbcImpl(connection);
+        Student s = repository.findById((long)1);
+        Mentor m1 = new Mentor((long)0, "уацупмц", "укпаку", s);
+        Mentor m2 = new Mentor((long)0, "аукппцу", "бамаукики", s);
+        s.getMentors().add(m1);
+        s.getMentors().add(m2);
+        repository.update(s);
+        System.out.println(s);
     }
 }
 

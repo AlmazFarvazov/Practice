@@ -1,4 +1,4 @@
-package ru.itic.javalab_practice;
+package ru.itic.javalab_practice.jdbc;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
