@@ -1,22 +1,38 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Фарвазов Алмаз</title>
+        <title>About me</title>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <link rel="stylesheet" type="text/css" href="css/main.css">
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.js" integrity="sha512-WNLxfP/8cVYL9sj8Jnp6et0BkubLP31jhTG9vhL/F5uEZmg5wEzKoXp1kJslzPQWwPT1eyMiSxlKCgzHLOTOTQ==" crossorigin="anonymous"></script>
+        <script>
+            function getInfo() {
+                $.getJSON("/aboutMe", function (response) {
+                    let html = "<h1> " + response["first_name"] + " " + response["last_name"] + "</h1>";
+                    $("#fullName").append(html);
+                    html = "<p>" + response["description1"] + "</p>" + "<p>" + response["description2"] + "</p>";
+                    $("#description").append(html);
+                    html = "<img src=\"" + response["pathToPhoto"] + "\"  alt=\"My photo\">"
+                    $("#photo").append(html);
+                    html = "<p>Телефон: " + response["phone"] + "</p>" + "<p>Почта: <a href=\"" + response["email"] + "\">" + response["email"] + "</a></p>";
+                    $("#contacts").append(html);
+                });
+            }
+        </script>
     </head>
 
-    <body>
+    <body onload="getInfo()">
         <div class="container" >
             <div class="row">
-                <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                  <h1>Фарвазов Алмаз</h1>
+                <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6" id="fullName">
                 </div>
                 <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 submit">
-                    <!-- Button trigger modal -->
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
                         Оставить заявку
                     </button>
@@ -46,13 +62,8 @@
         </div>
         <div class="container" >
             <div class="row">
-                <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean feugiat sodales ante, sit amet lobortis tortor sodales iaculis. Morbi in semper leo. Etiam cursus arcu non erat dictum molestie. Nullam ullamcorper vulputate ante ut egestas. Nulla non elit nibh. Aliquam egestas non mauris in mollis. Proin sit amet egestas augue, id lobortis turpis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum laoreet metus quam. Sed commodo, turpis vel ullamcorper egestas, eros erat ultrices elit, at pellentesque mi nunc vel leo.</p>
-                    <p>Duis condimentum euismod imperdiet. Fusce rhoncus risus purus, suscipit pharetra nisl laoreet sit amet. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Aliquam dapibus sagittis leo, in commodo erat interdum id. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nunc fermentum erat quis orci aliquet, vitae lacinia turpis accumsan. Aliquam ac ipsum quis justo dignissim euismod. Phasellus placerat imperdiet volutpat. Maecenas ac feugiat leo.</p>
-                </div>
-                <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                    <img src="images/profile.jpg" alt="My photo">
-                </div>
+                <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6" id="description"></div>
+                <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6" id="photo"></div>
             </div>
         </div>
         <div class="container" >
@@ -64,14 +75,8 @@
         </div>
         <div class="container" >
             <div class="row">
-                <div class="col-12">
-                    <p>Телефон: +7 (123) 456-78-90</p>
-                    <p>Почта: <a href="mailto: almaz.farvazov2001@gmail.com">almaz.farvazov2001@gmail.com</a></p>
-                </div>
+                <div class="col-12" id="contacts"></div>
             </div>
         </div>
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     </body>
 </html>
