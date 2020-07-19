@@ -45,15 +45,16 @@
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
-                                <div class="modal-body">
-                                <form>
-                                    <input type="text" placeholder="Введите email...">
+                                <form method="post" action="/aboutMe">
+                                    <div class="modal-body">
+                                        <input type="text" name="name" placeholder="Введите имя...">
+                                        <input type="email" name="email" placeholder="Введите email...">
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                                        <button type="submit" class="btn btn-primary">Отправить</button>
+                                    </div>
                                 </form>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
-                                    <button type="button" class="btn btn-primary">Отправить</button>
-                                </div>
                             </div>
                         </div>
                     </div>

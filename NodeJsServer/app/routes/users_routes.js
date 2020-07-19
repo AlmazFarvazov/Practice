@@ -1,3 +1,9 @@
+const { Pool, Client } = require('pg');
+const connectionString = 'postgres://postgres:m4sl!na@localhost/aboutme';
+
+bodyParser = require('body-parser');
+const urlencodedParser = bodyParser.urlencoded({extended: false});
+
 module.exports = function (app) {
     app.get('/aboutMe', (request, response) => {
         var result = {
@@ -9,6 +15,47 @@ module.exports = function (app) {
             "email": "almaz.farvazov2001@gmail.com",
             "pathToPhoto": "images/profile.jpg"
         };
+        response.setHeader("Content-Type", "application/json");
         response.send(JSON.stringify(result));
     });
+
+    app.post('/aboutMe', urlencodedParser, (request, response) => {
+        if(!request.body) return response.sendStatus(400);
+        console.log(request.body);
+        const user = request.body;
+        const client = new Client({
+            connectionString: connectionString,
+        })
+        client.connect();
+        client.query('INSERT INTO applications(name, email) VALUES($1, $2)',
+            [user.name, user.email], (err, res) => {
+            if (err) {
+                console.log(err.stack);
+            } else {
+                console.log(res.rows[0]);
+            }
+        });
+        response.send('successfully registered');
+    });
+
+    app.get('/users', (request, response) => {
+        if(!request.body) return response.sendStatus(400);
+        console.log(request.body);
+        const user = request.body;
+        const client = new Client({
+            connectionString: connectionString,
+        })
+        client.connect();
+        client.query('SELECT name, email FROM applications;',
+            [], (error, result) => {
+                if (error) {
+                    console.log(error.stack);
+                } else {
+                    console.log(result.rows[0]);
+                }
+                response.setHeader("Content-Type", "application/json");
+                response.json(result.rows);
+            });
+    });
+
 };
